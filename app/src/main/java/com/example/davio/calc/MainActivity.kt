@@ -8,16 +8,19 @@ import android.widget.TextView
 import android.widget.Toast
 import com.udojava.evalex.Expression
 import kotlinx.android.synthetic.main.activity_main.*
+import java.math.BigDecimal
 import java.util.*
-import kotlin.math.max
+
+
 
 
 class MainActivity : AppCompatActivity() {
     val STATE_INPUT = ""
     val STATE_DEQUE_COUNTER: Deque<Int> = LinkedList()
-    val STATE_DEQUE_OPERATIONS: Deque<Int> = LinkedList() // -1 - (, 0 - ), 1 - number, 2 - leftfunc, 3 - rightfunc, 4 - simpleOper, 5 - digit after dot
+    val STATE_DEQUE_OPERATIONS: Deque<Int> = LinkedList()
+    // -1 - (, 0 - ), 1 - number, 2 - leftfunc, 3 - rightfunc, 4 - simpleOper, 5 - digit after dot
     var memoryFlag = false
-    var memoryValue = 0
+    var memoryValue = BigDecimal(0)
     var invert = false
     var unit = false
     var lastNumberWithDotFlag = false
@@ -28,23 +31,23 @@ class MainActivity : AppCompatActivity() {
     }
 
     public override fun onSaveInstanceState(savedInstanceState: Bundle) {
+        super.onSaveInstanceState(savedInstanceState)
         savedInstanceState.putString(STATE_INPUT, input_field.text.toString())
         savedInstanceState.putBoolean("memFlag", memoryFlag)
         savedInstanceState.putBoolean("inv", invert)
         savedInstanceState.putBoolean("unit", unit)
         savedInstanceState.putBoolean("dot", lastNumberWithDotFlag)
-        savedInstanceState.putInt("memValue", memoryValue)
+        savedInstanceState.putString("memValue", memoryValue.toString())
         savedInstanceState.putIntArray("stack_operations", STATE_DEQUE_OPERATIONS.toIntArray())
         savedInstanceState.putIntArray("stack_counter", STATE_DEQUE_COUNTER.toIntArray())
-        super.onSaveInstanceState(savedInstanceState)
     }
 
     override fun onRestoreInstanceState(savedInstanceState: Bundle?) {
         super.onRestoreInstanceState(savedInstanceState)
         for(element in savedInstanceState?.getIntArray("stack_operations") as IntArray)
-            STATE_DEQUE_OPERATIONS.addFirst(element)
+            STATE_DEQUE_OPERATIONS.addLast(element)
         for(element in savedInstanceState.getIntArray("stack_counter") as IntArray)
-            STATE_DEQUE_COUNTER.addFirst(element)
+            STATE_DEQUE_COUNTER.addLast(element)
         input_field.text = savedInstanceState.getString(STATE_INPUT)
         memoryFlag = savedInstanceState.getBoolean("memFlag")
         lastNumberWithDotFlag = savedInstanceState.getBoolean("dot")
@@ -56,14 +59,15 @@ class MainActivity : AppCompatActivity() {
         if(unit && getResources().getConfiguration().orientation == Configuration.ORIENTATION_LANDSCAPE) {
             switchUnit()
         }
-        memoryValue = savedInstanceState.getInt("memValue")
+        memoryValue = BigDecimal(savedInstanceState.getString("memValue"))
+        getResult()
     }
     fun append(textView: TextView, appendedText: String) {
-        textView.text = textView.text.toString() + appendedText;
+        textView.text = textView.text.toString() + appendedText
     }
 
     fun appendFront(textView: TextView, appendedText: String) {
-        textView.text =  appendedText + textView.text.toString();
+        textView.text =  appendedText + textView.text.toString()
     }
 
     fun onCharacterClick(view: View) {
@@ -111,8 +115,9 @@ class MainActivity : AppCompatActivity() {
         getResult()
     }
     fun onRightFunctionClick(view: View) {
-        if(STATE_DEQUE_OPERATIONS.peek() == 0 || STATE_DEQUE_OPERATIONS.peek() == 5 || STATE_DEQUE_OPERATIONS.peek() == 1 || STATE_DEQUE_OPERATIONS.peek() == 3) {
-            onLeftFunctionClick(view);
+        if(STATE_DEQUE_OPERATIONS.peek() == 0 || STATE_DEQUE_OPERATIONS.peek() == 5 ||
+                STATE_DEQUE_OPERATIONS.peek() == 1 || STATE_DEQUE_OPERATIONS.peek() == 3) {
+            onLeftFunctionClick(view)
             STATE_DEQUE_OPERATIONS.pop()
             STATE_DEQUE_OPERATIONS.addFirst(3)
         }
@@ -146,8 +151,8 @@ class MainActivity : AppCompatActivity() {
     }
 
     fun onMCClick(view: View) {
-        memoryFlag = false;
-        memoryValue = 0;
+        memoryFlag = false
+        memoryValue = BigDecimal.ZERO
     }
     fun onMRClick(view: View) {
         if(STATE_DEQUE_OPERATIONS.peek() != 1 && STATE_DEQUE_OPERATIONS.peek() != 5 && memoryFlag) {
@@ -163,38 +168,54 @@ class MainActivity : AppCompatActivity() {
         }
     }
     fun onMPlusClick(view: View) {
-        memoryFlag = true;
-        //memoryValue += getResult();
+        getResult()
+        if(!result_field.text.isEmpty() && result_field.text != "Error") {
+            memoryFlag = true
+            memoryValue = memoryValue.add(BigDecimal(result_field.text.toString()))
+        } else {
+            memoryFlag = false
+            memoryValue = BigDecimal.ZERO
+        }
     }
     fun onMMinusClick(view: View) {
-        memoryFlag = true;
-        //memoryValue -= getResult();
+        getResult()
+        if(!result_field.text.isEmpty() && result_field.text != "Error") {
+            memoryFlag = true
+            memoryValue = memoryValue.subtract(BigDecimal(result_field.text.toString()))
+        } else {
+            memoryFlag = false
+            memoryValue = BigDecimal.ZERO
+        }
     }
     fun getResult() {
-        var expr_string = input_field.text.toString()
+        val expr_string = input_field.text.toString()
         var balance = 0
-        for(symbol in expr_string) {
-            if(symbol == '(') {
+        for (symbol in expr_string) {
+            if (symbol == '(') {
                 balance++
-            } else if(symbol == ')') {
+            } else if (symbol == ')') {
                 balance--
             }
         }
         try {
-            expr_string = expr_string.padEnd(balance, '0')
-            val toast = Toast.makeText(this, balance.toString()+expr_string.padEnd(balance, '0'), Toast.LENGTH_LONG)
-            toast.show()
-            val expression = Expression(expr_string)
+            val expression = Expression(expr_string.padEnd(expr_string.length + balance, ')'))
             val result = expression.eval()
             result_field.text = result.toString()
         } catch (e: Exception) {
-            result_field.text = "Error"
+            if (expr_string.length > 0) {
+                result_field.text = "Error"
+            } else {
+                result_field.text = ""
+            }
         }
     }
     fun onEqualityClick(view: View) {
         getResult()
-        if(result_field.text != "Error") {
-            onClearClick(clear)
+        if(!result_field.text.isEmpty() && result_field.text != "Error") {
+            input_field.text = ""
+            STATE_DEQUE_COUNTER.clear()
+            STATE_DEQUE_OPERATIONS.clear()
+
             for(symbol in result_field.text) {
                 onCharacterClickString(symbol.toString())
             }

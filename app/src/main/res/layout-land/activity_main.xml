@@ -11,9 +11,13 @@
         android:layout_height="wrap_content"
         android:layout_weight="0.125"
         android:ems="10"
-        android:gravity="end"
+        android:gravity="right"
         android:text=""
-        android:textSize="15sp"/>
+        android:singleLine="true"
+        android:ellipsize="start"
+        android:scrollHorizontally="true"
+        android:textColor="#323232"
+        android:textSize="20sp"/>
 
     <TextView
         android:id="@+id/result_field"
@@ -21,9 +25,13 @@
         android:layout_height="wrap_content"
         android:layout_weight="0.125"
         android:ems="10"
-        android:gravity="end"
+        android:gravity="right"
         android:text=""
-        android:textSize="20sp"/>
+        android:singleLine="true"
+        android:ellipsize="start"
+        android:scrollHorizontally="true"
+        android:textColor="#323232"
+        android:textSize="25sp"/>
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -39,6 +47,8 @@
             android:gravity="center"
             android:onClick="onOpenBracketClick"
             android:text="("
+            android:background="#ebebeb"
+            android:textColor="#878787"
             android:textSize="20sp" />
 
         <TextView
@@ -50,6 +60,8 @@
             android:gravity="center"
             android:onClick="onCloseBracketClick"
             android:text=")"
+            android:background="#ebebeb"
+            android:textColor="#878787"
             android:textSize="20sp" />
 
         <TextView
@@ -61,6 +73,8 @@
             android:gravity="center"
             android:onClick="onRightFunctionClick"
             android:text="1/x"
+            android:background="#ebebeb"
+            android:textColor="#878787"
             android:textSize="20sp" />
 
         <TextView
@@ -71,6 +85,8 @@
             android:gravity="center"
             android:onClick="onMCClick"
             android:text="mc"
+            android:textColor="#878787"
+            android:background="#f5f5f5"
             android:textSize="20sp" />
 
         <TextView
@@ -81,6 +97,8 @@
             android:gravity="center"
             android:onClick="onMPlusClick"
             android:text="m+"
+            android:textColor="#878787"
+            android:background="#f5f5f5"
             android:textSize="20sp" />
 
         <TextView
@@ -91,6 +109,8 @@
             android:gravity="center"
             android:onClick="onMMinusClick"
             android:text="m-"
+            android:textColor="#878787"
+            android:background="#f5f5f5"
             android:textSize="20sp" />
 
         <TextView
@@ -101,6 +121,8 @@
             android:gravity="center"
             android:onClick="onMRClick"
             android:text="mr"
+            android:textColor="#878787"
+            android:background="#f5f5f5"
             android:textSize="20sp" />
     </LinearLayout>
 
@@ -118,6 +140,8 @@
             android:gravity="center"
             android:onClick="onRightFunctionClick"
             android:text="x²"
+            android:background="#ebebeb"
+            android:textColor="#878787"
             android:textSize="20sp" />
 
         <TextView
@@ -129,6 +153,8 @@
             android:gravity="center"
             android:onClick="onRightFunctionClick"
             android:text="x³"
+            android:background="#ebebeb"
+            android:textColor="#878787"
             android:textSize="20sp" />
 
         <TextView
@@ -140,6 +166,8 @@
             android:gravity="center"
             android:onClick="onRightFunctionClick"
             android:text="xⁿ"
+            android:background="#ebebeb"
+            android:textColor="#878787"
             android:textSize="20sp" />
 
         <TextView
@@ -150,6 +178,8 @@
             android:gravity="center"
             android:onClick="onClearClick"
             android:text="C"
+            android:textColor="#00acc2"
+            android:background="#f5f5f5"
             android:textSize="20sp" />
 
         <TextView
@@ -161,6 +191,8 @@
             android:gravity="center"
             android:onClick="onSimpleOperationClick"
             android:text="÷"
+            android:textColor="#00acc2"
+            android:background="#f5f5f5"
             android:textSize="20sp" />
 
         <TextView
@@ -172,6 +204,8 @@
             android:gravity="center"
             android:onClick="onSimpleOperationClick"
             android:text="×"
+            android:textColor="#00acc2"
+            android:background="#f5f5f5"
             android:textSize="20sp" />
 
         <TextView
@@ -182,6 +216,8 @@
             android:gravity="center"
             android:onClick="onBackspaceClick"
             android:text="←"
+            android:textColor="#00acc2"
+            android:background="#f5f5f5"
             android:textSize="20sp" />
     </LinearLayout>
 
@@ -199,6 +235,8 @@
             android:gravity="center"
             android:onClick="onLeftFunctionClick"
             android:text="x!"
+            android:background="#ebebeb"
+            android:textColor="#878787"
             android:textSize="20sp" />
 
         <TextView
@@ -210,6 +248,8 @@
             android:gravity="center"
             android:onClick="onRightFunctionClick"
             android:text="√"
+            android:background="#ebebeb"
+            android:textColor="#878787"
             android:textSize="20sp" />
 
         <TextView
@@ -221,6 +261,8 @@
             android:gravity="center"
             android:onClick="onRightFunctionClick"
             android:text="ⁿ√x"
+            android:background="#ebebeb"
+            android:textColor="#878787"
             android:textSize="20sp" />
 
         <TextView
@@ -232,6 +274,8 @@
             android:gravity="center"
             android:onClick="onCharacterClick"
             android:text="7"
+            android:textColor="#323232"
+            android:background="#fcfcfc"
             android:textSize="20sp" />
 
         <TextView
@@ -243,6 +287,8 @@
             android:gravity="center"
             android:onClick="onCharacterClick"
             android:text="8"
+            android:textColor="#323232"
+            android:background="#fcfcfc"
             android:textSize="20sp" />
 
         <TextView
@@ -254,6 +300,8 @@
             android:gravity="center"
             android:onClick="onCharacterClick"
             android:text="9"
+            android:textColor="#323232"
+            android:background="#fcfcfc"
             android:textSize="20sp" />
 
         <TextView
@@ -265,6 +313,8 @@
             android:gravity="center"
             android:onClick="onSimpleOperationClick"
             android:text="−"
+            android:textColor="#00acc2"
+            android:background="#f5f5f5"
             android:textSize="20sp" />
     </LinearLayout>
 
@@ -278,9 +328,12 @@
             android:layout_width="0dp"
             android:layout_height="match_parent"
             android:layout_weight="1"
+            android:background="#ebebeb"
+            android:contentDescription="e"
             android:gravity="center"
             android:onClick="onCharacterClick"
             android:text="e"
+            android:textColor="#878787"
             android:textSize="20sp" />
 
         <TextView
@@ -292,6 +345,8 @@
             android:gravity="center"
             android:onClick="onLeftFunctionClick"
             android:text="ln"
+            android:background="#ebebeb"
+            android:textColor="#878787"
             android:textSize="20sp" />
 
         <TextView
@@ -303,6 +358,8 @@
             android:gravity="center"
             android:onClick="onLeftFunctionClick"
             android:text="log"
+            android:background="#ebebeb"
+            android:textColor="#878787"
             android:textSize="20sp" />
 
         <TextView
@@ -314,6 +371,8 @@
             android:gravity="center"
             android:onClick="onCharacterClick"
             android:text="4"
+            android:textColor="#323232"
+            android:background="#fcfcfc"
             android:textSize="20sp" />
 
         <TextView
@@ -325,6 +384,8 @@
             android:gravity="center"
             android:onClick="onCharacterClick"
             android:text="5"
+            android:textColor="#323232"
+            android:background="#fcfcfc"
             android:textSize="20sp" />
 
         <TextView
@@ -336,6 +397,8 @@
             android:gravity="center"
             android:onClick="onCharacterClick"
             android:text="6"
+            android:textColor="#323232"
+            android:background="#fcfcfc"
             android:textSize="20sp" />
 
         <TextView
@@ -347,6 +410,8 @@
             android:gravity="center"
             android:onClick="onSimpleOperationClick"
             android:text="+"
+            android:textColor="#00acc2"
+            android:background="#f5f5f5"
             android:textSize="20sp" />
     </LinearLayout>
 
@@ -364,6 +429,8 @@
             android:gravity="center"
             android:onClick="onLeftFunctionClick"
             android:text="sin"
+            android:background="#ebebeb"
+            android:textColor="#878787"
             android:textSize="20sp" />
 
         <TextView
@@ -375,6 +442,8 @@
             android:gravity="center"
             android:onClick="onLeftFunctionClick"
             android:text="cos"
+            android:background="#ebebeb"
+            android:textColor="#878787"
             android:textSize="20sp" />
 
         <TextView
@@ -386,6 +455,8 @@
             android:gravity="center"
             android:onClick="onLeftFunctionClick"
             android:text="tan"
+            android:background="#ebebeb"
+            android:textColor="#878787"
             android:textSize="20sp" />
 
         <TextView
@@ -397,6 +468,8 @@
             android:gravity="center"
             android:onClick="onCharacterClick"
             android:text="1"
+            android:textColor="#323232"
+            android:background="#fcfcfc"
             android:textSize="20sp" />
 
         <TextView
@@ -408,6 +481,8 @@
             android:gravity="center"
             android:onClick="onCharacterClick"
             android:text="2"
+            android:textColor="#323232"
+            android:background="#fcfcfc"
             android:textSize="20sp" />
 
         <TextView
@@ -419,6 +494,8 @@
             android:gravity="center"
             android:onClick="onCharacterClick"
             android:text="3"
+            android:textColor="#323232"
+            android:background="#fcfcfc"
             android:textSize="20sp" />
 
         <TextView
@@ -429,6 +506,8 @@
             android:gravity="center"
             android:onClick="onPlusMinusClick"
             android:text="±"
+            android:textColor="#ffffff"
+            android:background="#00acc2"
             android:textSize="20sp" />
     </LinearLayout>
 
@@ -445,6 +524,8 @@
             android:gravity="center"
             android:onClick="onInvertClick"
             android:text="INV"
+            android:background="#ebebeb"
+            android:textColor="#878787"
             android:textSize="20sp" />
 
         <TextView
@@ -455,6 +536,8 @@
             android:gravity="center"
             android:onClick="onSwitchUnitClick"
             android:text="RAD"
+            android:background="#ebebeb"
+            android:textColor="#878787"
             android:textSize="20sp" />
 
         <TextView
@@ -466,6 +549,8 @@
             android:gravity="center"
             android:onClick="onCharacterClick"
             android:text="π"
+            android:background="#ebebeb"
+            android:textColor="#878787"
             android:textSize="20sp" />
 
         <TextView
@@ -475,8 +560,10 @@
             android:layout_weight="1"
             android:contentDescription="%"
             android:gravity="center"
-            android:onClick="onPercentClick"
+            android:onClick="onSimpleOperationClick"
             android:text="%"
+            android:textColor="#323232"
+            android:background="#fcfcfc"
             android:textSize="20sp" />
 
         <TextView
@@ -488,6 +575,8 @@
             android:gravity="center"
             android:onClick="onCharacterClick"
             android:text="0"
+            android:textColor="#323232"
+            android:background="#fcfcfc"
             android:textSize="20sp" />
 
         <TextView
@@ -499,6 +588,8 @@
             android:gravity="center"
             android:onClick="onPointClick"
             android:text="."
+            android:textColor="#323232"
+            android:background="#fcfcfc"
             android:textSize="20sp" />
 
         <TextView
@@ -509,6 +600,8 @@
             android:gravity="center"
             android:onClick="onEqualityClick"
             android:text="="
+            android:textColor="#ffffff"
+            android:background="#00acc2"
             android:textSize="20sp" />
     </LinearLayout>
 </LinearLayout>
