@@ -1,0 +1,4 @@
+<resources>
+    <string name="app_name">Calc</string>
+    <string name="view_size">35sp</string>
+</resources>
