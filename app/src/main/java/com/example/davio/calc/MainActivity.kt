@@ -12,14 +12,8 @@ import java.util.*
 
 
 class MainActivity : AppCompatActivity() {
-    val STATE_INPUT = ""
-    val STATE_DEQUE_COUNTER: Deque<Int> = LinkedList()
-    val STATE_DEQUE_OPERATIONS: Deque<Int> = LinkedList()
-    val NUMBER_FLAG = 1
-    val LEFT_FUNC_FLAG = 2
-    val RIGHT_FUNC_FLAG = 3
-    val SIMPLE_OPER_FLAG = 4
-    val FRACTION_FLAG = 5
+    val stateDequeCounter: Deque<Int> = LinkedList()
+    val stateDequeOperations: Deque<Int> = LinkedList()
     var memoryFlag = false
     var memoryValue = BigDecimal(0)
     var invert = false
@@ -33,23 +27,23 @@ class MainActivity : AppCompatActivity() {
 
     public override fun onSaveInstanceState(savedInstanceState: Bundle) {
         super.onSaveInstanceState(savedInstanceState)
-        savedInstanceState.putString(STATE_INPUT, input_field.text.toString())
+        savedInstanceState.putString(Companion.STATE_INPUT, input_field.text.toString())
         savedInstanceState.putBoolean("memFlag", memoryFlag)
         savedInstanceState.putBoolean("inv", invert)
         savedInstanceState.putBoolean("unit", unit)
         savedInstanceState.putBoolean("dot", lastNumberWithDotFlag)
         savedInstanceState.putString("memValue", memoryValue.toString())
-        savedInstanceState.putIntArray("stack_operations", STATE_DEQUE_OPERATIONS.toIntArray())
-        savedInstanceState.putIntArray("stack_counter", STATE_DEQUE_COUNTER.toIntArray())
+        savedInstanceState.putIntArray("stack_operations", stateDequeOperations.toIntArray())
+        savedInstanceState.putIntArray("stack_counter", stateDequeCounter.toIntArray())
     }
 
     override fun onRestoreInstanceState(savedInstanceState: Bundle?) {
         super.onRestoreInstanceState(savedInstanceState)
         for (element in savedInstanceState?.getIntArray("stack_operations") as IntArray)
-            STATE_DEQUE_OPERATIONS.addLast(element)
+            stateDequeOperations.addLast(element)
         for (element in savedInstanceState.getIntArray("stack_counter") as IntArray)
-            STATE_DEQUE_COUNTER.addLast(element)
-        input_field.text = savedInstanceState.getString(STATE_INPUT)
+            stateDequeCounter.addLast(element)
+        input_field.text = savedInstanceState.getString(Companion.STATE_INPUT)
         memoryFlag = savedInstanceState.getBoolean("memFlag")
         lastNumberWithDotFlag = savedInstanceState.getBoolean("dot")
         invert = savedInstanceState.getBoolean("inv")
@@ -79,28 +73,28 @@ class MainActivity : AppCompatActivity() {
 
     fun onCharacterClickString(curText: String) {
         append(input_field, curText)
-        STATE_DEQUE_COUNTER.addFirst(curText.length)
+        stateDequeCounter.addFirst(curText.length)
         if (!lastNumberWithDotFlag) {
-            STATE_DEQUE_OPERATIONS.addFirst(NUMBER_FLAG)
+            stateDequeOperations.addFirst(Companion.NUMBER_FLAG)
         } else {
-            STATE_DEQUE_OPERATIONS.addFirst(FRACTION_FLAG)
+            stateDequeOperations.addFirst(Companion.FRACTION_FLAG)
         }
         getResult()
     }
 
     fun onSimpleOperationClick(view: View) {
-        if ((STATE_DEQUE_OPERATIONS.isEmpty() || STATE_DEQUE_OPERATIONS.peek() == LEFT_FUNC_FLAG || STATE_DEQUE_OPERATIONS.peek() == -NUMBER_FLAG) && view.id == minus.id
-                || STATE_DEQUE_OPERATIONS.peek() == FRACTION_FLAG || STATE_DEQUE_OPERATIONS.peek() == RIGHT_FUNC_FLAG
-                || STATE_DEQUE_OPERATIONS.peek() == NUMBER_FLAG || STATE_DEQUE_OPERATIONS.peek() == 0) {
+        if ((stateDequeOperations.isEmpty() || stateDequeOperations.peek() == Companion.LEFT_FUNC_FLAG || stateDequeOperations.peek() == -Companion.NUMBER_FLAG) && view.id == minus.id
+                || stateDequeOperations.peek() == Companion.FRACTION_FLAG || stateDequeOperations.peek() == Companion.RIGHT_FUNC_FLAG
+                || stateDequeOperations.peek() == Companion.NUMBER_FLAG || stateDequeOperations.peek() == 0) {
             onCharacterClick(view)
-            STATE_DEQUE_OPERATIONS.pop()
-            STATE_DEQUE_OPERATIONS.addFirst(SIMPLE_OPER_FLAG)
-        } else if (STATE_DEQUE_OPERATIONS.peek() == SIMPLE_OPER_FLAG) {
+            stateDequeOperations.pop()
+            stateDequeOperations.addFirst(Companion.SIMPLE_OPER_FLAG)
+        } else if (stateDequeOperations.peek() == Companion.SIMPLE_OPER_FLAG) {
             onBackspaceClick(backspace)
 
             onCharacterClick(view)
-            STATE_DEQUE_OPERATIONS.pop()
-            STATE_DEQUE_OPERATIONS.addFirst(SIMPLE_OPER_FLAG)
+            stateDequeOperations.pop()
+            stateDequeOperations.addFirst(Companion.SIMPLE_OPER_FLAG)
         }
         lastNumberWithDotFlag = false
         //getResult()
@@ -112,26 +106,26 @@ class MainActivity : AppCompatActivity() {
             curText.padStart(NUMBER_FLAG, '*')
         }*/
         append(input_field, curText)
-        STATE_DEQUE_COUNTER.addFirst(curText.length)
-        STATE_DEQUE_OPERATIONS.addFirst(LEFT_FUNC_FLAG)
+        stateDequeCounter.addFirst(curText.length)
+        stateDequeOperations.addFirst(Companion.LEFT_FUNC_FLAG)
         lastNumberWithDotFlag = false
         getResult()
     }
 
     fun onRightFunctionClick(view: View) {
-        if (STATE_DEQUE_OPERATIONS.peek() == 0 || STATE_DEQUE_OPERATIONS.peek() == FRACTION_FLAG ||
-                STATE_DEQUE_OPERATIONS.peek() == NUMBER_FLAG || STATE_DEQUE_OPERATIONS.peek() == RIGHT_FUNC_FLAG) {
+        if (stateDequeOperations.peek() == 0 || stateDequeOperations.peek() == Companion.FRACTION_FLAG ||
+                stateDequeOperations.peek() == Companion.NUMBER_FLAG || stateDequeOperations.peek() == Companion.RIGHT_FUNC_FLAG) {
             onLeftFunctionClick(view)
-            STATE_DEQUE_OPERATIONS.pop()
-            STATE_DEQUE_OPERATIONS.addFirst(RIGHT_FUNC_FLAG)
+            stateDequeOperations.pop()
+            stateDequeOperations.addFirst(Companion.RIGHT_FUNC_FLAG)
         }
         lastNumberWithDotFlag = false
     }
 
     fun onBackspaceClick(view: View) {
-        if (!STATE_DEQUE_COUNTER.isEmpty()) {
-            input_field.text = input_field.text.dropLast(STATE_DEQUE_COUNTER.pop())
-            STATE_DEQUE_OPERATIONS.pop()
+        if (!stateDequeCounter.isEmpty()) {
+            input_field.text = input_field.text.dropLast(stateDequeCounter.pop())
+            stateDequeOperations.pop()
             getResult()
         }
     }
@@ -139,19 +133,19 @@ class MainActivity : AppCompatActivity() {
     fun onClearClick(view: View) {
         input_field.text = ""
         result_field.text = ""
-        STATE_DEQUE_COUNTER.clear()
-        STATE_DEQUE_OPERATIONS.clear()
+        stateDequeCounter.clear()
+        stateDequeOperations.clear()
     }
 
     fun onPlusMinusClick(view: View) {
         if (input_field.text.isEmpty()) {
             append(input_field, "-")
-            STATE_DEQUE_COUNTER.addFirst(NUMBER_FLAG)
-            STATE_DEQUE_OPERATIONS.addFirst(SIMPLE_OPER_FLAG)
+            stateDequeCounter.addFirst(Companion.NUMBER_FLAG)
+            stateDequeOperations.addFirst(Companion.SIMPLE_OPER_FLAG)
         } else {
             appendFront(input_field, "-(")
-            STATE_DEQUE_COUNTER.addLast(LEFT_FUNC_FLAG)
-            STATE_DEQUE_OPERATIONS.addLast(SIMPLE_OPER_FLAG)
+            stateDequeCounter.addLast(Companion.LEFT_FUNC_FLAG)
+            stateDequeOperations.addLast(Companion.SIMPLE_OPER_FLAG)
         }
         getResult()
     }
@@ -162,15 +156,15 @@ class MainActivity : AppCompatActivity() {
     }
 
     fun onMRClick(view: View) {
-        if (STATE_DEQUE_OPERATIONS.peek() != NUMBER_FLAG && STATE_DEQUE_OPERATIONS.peek() != FRACTION_FLAG && memoryFlag) {
+        if (stateDequeOperations.peek() != Companion.NUMBER_FLAG && stateDequeOperations.peek() != Companion.FRACTION_FLAG && memoryFlag) {
             lastNumberWithDotFlag = false
             for (digit in memoryValue.toString()) {
                 if (digit == ',') {
                     lastNumberWithDotFlag = true
                 }
                 append(input_field, digit.toString())
-                STATE_DEQUE_COUNTER.addFirst(NUMBER_FLAG)
-                STATE_DEQUE_OPERATIONS.addFirst(NUMBER_FLAG)
+                stateDequeCounter.addFirst(Companion.NUMBER_FLAG)
+                stateDequeOperations.addFirst(Companion.NUMBER_FLAG)
             }
         }
     }
@@ -224,8 +218,8 @@ class MainActivity : AppCompatActivity() {
         getResult()
         if (!result_field.text.isEmpty() && result_field.text != "Error") {
             input_field.text = ""
-            STATE_DEQUE_COUNTER.clear()
-            STATE_DEQUE_OPERATIONS.clear()
+            stateDequeCounter.clear()
+            stateDequeOperations.clear()
 
             for (symbol in result_field.text) {
                 onCharacterClickString(symbol.toString())
@@ -235,15 +229,15 @@ class MainActivity : AppCompatActivity() {
 
     fun onOpenBracketClick(view: View) {
         onCharacterClick(view)
-        STATE_DEQUE_OPERATIONS.pop()
-        STATE_DEQUE_OPERATIONS.addFirst(-NUMBER_FLAG)
+        stateDequeOperations.pop()
+        stateDequeOperations.addFirst(-Companion.NUMBER_FLAG)
 
     }
 
     fun onCloseBracketClick(view: View) {
         onCharacterClick(view)
-        STATE_DEQUE_OPERATIONS.pop()
-        STATE_DEQUE_OPERATIONS.addFirst(0)
+        stateDequeOperations.pop()
+        stateDequeOperations.addFirst(0)
     }
 
     fun switchInvert() {
@@ -279,7 +273,7 @@ class MainActivity : AppCompatActivity() {
     }
 
     fun onPointClick(view: View) {
-        if (!lastNumberWithDotFlag && (STATE_DEQUE_OPERATIONS.isEmpty() || STATE_DEQUE_OPERATIONS.peek() == NUMBER_FLAG)) {
+        if (!lastNumberWithDotFlag && (stateDequeOperations.isEmpty() || stateDequeOperations.peek() == Companion.NUMBER_FLAG)) {
             lastNumberWithDotFlag = true
             onCharacterClick(view)
         }
@@ -297,6 +291,15 @@ class MainActivity : AppCompatActivity() {
     fun onSwitchUnitClick(view: View) {
         unit = unit.not()
         switchUnit()
+    }
+
+    companion object {
+        const val NUMBER_FLAG = 1
+        const val LEFT_FUNC_FLAG = 2
+        const val RIGHT_FUNC_FLAG = 3
+        const val FRACTION_FLAG = 5
+        const val SIMPLE_OPER_FLAG = 4
+        const val STATE_INPUT = ""
     }
 
 }
