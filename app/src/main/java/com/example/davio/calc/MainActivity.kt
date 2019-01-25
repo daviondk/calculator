@@ -15,11 +15,11 @@ class MainActivity : AppCompatActivity() {
     val STATE_INPUT = ""
     val STATE_DEQUE_COUNTER: Deque<Int> = LinkedList()
     val STATE_DEQUE_OPERATIONS: Deque<Int> = LinkedList()
-    var NUMBER_FLAG = 1
-    var LEFT_FUNC_FLAG = 2
-    var RIGHT_FUNC_FLAG = 3
-    var SIMPLE_OPER_FLAG = 4
-    var FRACTION_FLAG = 5
+    val NUMBER_FLAG = 1
+    val LEFT_FUNC_FLAG = 2
+    val RIGHT_FUNC_FLAG = 3
+    val SIMPLE_OPER_FLAG = 4
+    val FRACTION_FLAG = 5
     var memoryFlag = false
     var memoryValue = BigDecimal(0)
     var invert = false
